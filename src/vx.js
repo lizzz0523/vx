@@ -17,11 +17,12 @@ extend(vx, require('./vx/view'));
 extend(vx, require('./vx/global'));
 extend(vx, require('./vx/lifecycle'));
 
-var gvxId = 1;
+vx.version = '0.0.1';
+vx.gvxId = 1;
 
 function setup(parent, name, props, orig) {
     var vnode = vx.create(name, props, []),
-        node = vx.render(parent.gvxId || (parent.gvxId = gvxId++), vnode);
+        node = vx.render(parent.gvxId || (parent.gvxId = vx.gvxId++), vnode);
 
     if (!orig) {
         parent.appendChild(node);
