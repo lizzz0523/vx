@@ -1,6 +1,8 @@
 var webpack = require('webpack'),
-    CommonsChunkPlugin = require('webpack/lib/optimize/CommonsChunkPlugin'),
-    UglifyJsPlugin = require('webpack/lib/optimize/UglifyJsPlugin');
+
+    fs = require('fs'),
+    path = require('path'),
+    uglify = require('uglify-js');
 
 var compiler = webpack({
         context: __dirname + '/src',
@@ -13,12 +15,22 @@ var compiler = webpack({
             filename: '[name].js',
             library: '[name]',
             libraryTarget: 'umd'
-        },
-        plugins: [
-            // new UglifyJsPlugin()
-        ]
+        }
     });
 
 compiler.run(function (err, stats) {
-    console.log(stats);
+    // console.log(stats);
 });
+
+
+var code = fs.readFileSync(
+        path.join(__dirname, './dist', 'vx.js'),
+        'utf8'
+    );
+
+fs.writeFileSync(
+    path.join(__dirname, './dist', 'vx.min.js'),
+    uglify.minify(code, {fromString: true}).code
+);
+
+
