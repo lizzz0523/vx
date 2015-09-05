@@ -130,7 +130,13 @@ function orderNode(id, node, patch) {
 }
 
 function updateProp(id, node, patch) {
-    
+    _.each(patch, function (value, name) {
+        if (_.isUndefined(value)) {
+            node.removeAttribute(name);
+        } else {
+            node.setAttribute(name, value);
+        }
+    });
 }
 
 function updateView(id, node, patch) {
