@@ -1,1 +1,1 @@
-# vx
+VX: a live template engine inspired by react virtual dom

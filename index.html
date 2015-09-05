@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>VX, a template engine inspired by react virtual dom</title>
+</head>
+<body>
+    <div id="app"></div>
+    <script type="text/template" data-vx="Timer">
+        <div class="timer">
+            <input type="text" />
+            <p>
+                {
+                    timeFormat(this.time);
+                }
+            </p>
+        </div>
+    </script>
+    <script type="text/javascript" src="dist/vx.js"></script>
+    <script type="text/javascript" src="dist/vx-compiler.js"></script>
+    <script type="text/javascript">
+        function timeFormat(time) {
+            var hour = time.getHours(),
+                minute = time.getMinutes(),
+                second = time.getSeconds();
+
+            hour = (hour < 10 ? '0' : '') + hour;
+            minute = (minute < 10 ? '0' : '') + minute;
+            second = (second < 10 ? '0' : '') + second;
+
+            return [hour, minute, second].join(':');
+        }
+
+        vx.domReady(function () {
+            var timer = vx(document.querySelector('#app'), 'Timer', {time: new Date()});
+
+            setInterval(function () {
+                timer.set({time: new Date()});
+            }, 1000);
+        });
+    </script>
+</body>
+</html>

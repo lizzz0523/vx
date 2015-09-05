@@ -1,0 +1,19 @@
+{
+  "name": "VX-template",
+  "version": "1.0.0",
+  "description": "VX, new generation template engine inspired by react virtual dom",
+  "main": "build.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "vx",
+    "template-engine",
+    "virtual-dom"
+  ],
+  "author": "lizmlzhou",
+  "license": "MIT",
+  "devDependencies": {
+    "webpack": "^1.10.5"
+  }
+}
