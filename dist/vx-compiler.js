@@ -71,6 +71,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    rattr = /([-A-Za-z0-9_]+)(?:\s*=\s*(?:(?:"((?:\\.|[^"])*)")|(?:'((?:\\.|[^'])*)')|([^>\s]+)))?/g;
 	    
 	var rscript = /\{([^\}]+)$|\{([\s\S]+)\}|^([^\{]+)\}|$/,
+	    rprop = /^(?:\{([\s\S]+)\})|[\s\S]+$/,
 	    rtrim = /^\s*|\s*$/g,
 	    cache = {};
 
@@ -140,7 +141,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	                len = props.length;
 
 	                while (++i < len) {
-	                    code += '"' + props[i].name + '":"' + props[i].escaped + '",';
+	                    props[i].escaped.replace(rprop, function (all, script) {
+	                        if (script) {
+	                            code += '"' + props[i].name + '":vx.bind(function(){return ' + script + ';}, this),';
+	                        } else {
+	                            code += '"' + props[i].name + '":"' + all + '",';
+	                        }
+	                    });
 	                }
 
 	                if (code.substring(code.length - 1) === ',') {

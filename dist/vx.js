@@ -1178,13 +1178,18 @@ return /******/ (function(modules) { // webpackBootstrap
 	        children = [children];
 	    }
 
-	    children = _.map(children, function (child) {
-	        return _.isFunction(child) ? child() : child;
-	    });
+	    props = _.reduce(props, function (props, value, name) {
+	        value = _.isFunction(value) ? value() : value;
+	        props[name] = value;
+
+	        return props;
+	    }, {});
 
 	    children = _.reduce(children, function (children, child) {
 	        var i,
 	            len;
+
+	        child = _.isFunction(child) ? child() : child;
 
 	        if (!_.isUndefined(child) && child !== '') {
 	            if (_.isArray(child)) {
