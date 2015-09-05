@@ -8,33 +8,29 @@
     <div id="app"></div>
     <script type="text/template" data-vx="App">
         <div class="app">
-            <Timer>{ this.time }</Timer>
-            <List>{ this.items }</List>
+            <input type="text" />
+            <Timer time="{ this.time }" />
+            <List items="{ this.items }" />
         </div>
     </script>
     <script type="text/template" data-vx="Timer">
         <div class="timer">
-            <input type="text" />
-            <p>
-                {
-                    timeFormat(this.children[0])
-                }
-            </p>
+            <p>{ timeFormat(this.time) }</p>
         </div>
     </script>
     <script type="text/template" data-vx="List">
         <ul>
             {
-                vx.map(this.children, function (item) {
+                vx.map(this.items, function (item) {
                     return (
-                        <Item>{ item }</Item>
+                        <Item value="{ item }" />
                     )
                 })
             }
         </div>
     </script>
     <script type="text/template" data-vx="Item">
-        <li>item-{ this.children[0] }</li>
+        <li>item-{ this.value }</li>
     </script>
     <script type="text/javascript" src="../dist/vx.min.js"></script>
     <script type="text/javascript" src="../dist/vx-compiler.js"></script>
@@ -52,10 +48,10 @@
         }
 
         vx.domReady(function () {
-            var app = vx(document.querySelector('#app'), 'App', {time: new Date(), items: ['1','2','3','4']});
+            var app = vx(document.querySelector('#app'), 'App', {time: new Date(), items: ['1','2','3']});
 
             setInterval(function () {
-                app.set({time: new Date(), items: ['1','1','1','1']});
+                app.set({time: new Date(), items: ['1','2','3','4']});
             }, 1000);
         });
     </script>
