@@ -111,8 +111,6 @@
             this.state.max = options.imgs.length - 1 || 0;
             this.state.width = options.width || el.offsetWidth;
 
-            this.tmpl = vx(this.el, options.tmpl, this.state);
-
             this.el.addEventListener('click', function (event) {
                 var target = event.target,
                     action;
@@ -133,6 +131,8 @@
                     }
                 }
             });
+
+            this.tmpl = vx(this.el, options.tmpl, this.state);
         }
 
         Slider.prototype = {

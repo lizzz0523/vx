@@ -67,11 +67,11 @@ function createNode(id, node, vnode) {
         _.each(vnode.children, function (vnode, index) {
             $.appendChild(result, createNode(id + '.' + index, node, vnode));
         });
-
-        result.vxId = id;
     } else if (vnode.type === Type.NODE_VIEW) {
         result = VX.render(id, vnode);
     }
+
+    result.vxId = id;
     
     return result;
 }
