@@ -545,7 +545,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        bChild,
 	    
 	        i = -1,
-	        len = Math.max(a.count, b.count);
+	        len = Math.max(aChildren.length, bChildren.length);
 	        
 	    while (++i < len) {
 	        aChild = aChildren[i] || null;
@@ -663,29 +663,30 @@ return /******/ (function(modules) { // webpackBootstrap
 	}
 
 	function reorder(aChildren, bChildren) {
-	    var bChildIndex = index(bChildren),
-	        bKeys = bChildIndex.keys,
-	        bFree = bChildIndex.free,
-	        
-	        aChildIndex = index(aChildren),
-	        aKeys = aChildIndex.keys,
-	        aFree = aChildIndex.free,
-	        
-	        children,
-	        freePoint = 0,
-	        freeCount = bFree.length,
-	        lastFreeIndex,
-	        deletedIndex = 0,
+	    var aIndex = index(aChildren),
+	        aKeys = aIndex.keys,
+	        aFree = aIndex.free,
+
+	        bIndex = index(bChildren),
+	        bKeys = bIndex.keys,
+	        bFree = bIndex.free,
+
+	        cChildren = [],
+	        dChildren = [],
 	        aChild,
 	        bChild,
+	        cChild,
+	        i,
+	        j,
+	        k,
+	        len,
 
-	        simulate,
-	        simulateIndex = 0,
-	        wantedIndex = 0,
-	        simulateChild,
-	        wantedChild, 
-	        removes = [],
-	        inserts = [];
+	        freePoint,
+	        freeCount,
+	        lastFreeIndex,
+	        deletedIndex,
+	        inserts = [],
+	        removes = [];
 
 	    if (bFree.length === bChildren.length) {
 	        return {
@@ -702,102 +703,150 @@ return /******/ (function(modules) { // webpackBootstrap
 	            movePatch: null
 	        };
 	    }
-	    
-	    children = [];
-	    
-	    // 对应处理aChildren
-	    _.each(aChildren, function (aChild, index) {
+
+	    i = -1;
+	    len = aChildren.length;
+	    freePoint = 0;
+	    freeCount = bFree.length;
+	    deletedIndex = 0;
+
+	    while (++i < len) {
+	        aChild = aChildren[i];
+
 	        if (aChild.key) {
 	            if (_.has(bKeys, aChild.key)) {
-	                children.push(bChildren[bKeys[aChild.key]]);
+	                cChildren.push(bChildren[bKeys[aChild.key]]);
 	            } else {
 	                deletedIndex++;
-	                children.push(null);
+	                cChildren.push(null);
 	            }
 	        } else {
 	            if (freePoint < freeCount) {
-	                children.push(bChildren[bFree[freePoint++]]);
+	                cChildren.push(bChildren[bFree[freePoint++]]);
 	            } else {
 	                deletedIndex++;
-	                children.push(null);
+	                cChildren.push(null);
 	            }
-	        }
-	    });
-
-	    lastFreeIndex = freePoint < freeCount ? bFree[freePoint] : bChildren.length;
-	    
-	    // 对应处理bChildren
-	    _.each(bChildren, function (bChild, index) {
-	        if (bChild.key) {
-	            if (!_.has(aKeys, bChild.key)) {
-	                children.push(bChild);
-	            }
-	        } else {
-	            if (index >= lastFreeIndex) {
-	                children.push(bChild);
-	            }
-	        }
-	    });
-	    
-	    children = children.concat(bChildren);
-	    bChildren = children.splice(0, children.length - bChildren.length);
-	    
-	    simulate = bChildren.slice();
-
-	    while (wantedIndex < children.length) {
-	        wantedChild = children[wantedIndex];
-	        simulateChild = simulate[simulateIndex];
-
-	        while (simulateChild === null && simulate.length) {
-	            removes.push(remove(simulate, simulateIndex, null));
-	            simulateChild = simulate[simulateIndex];
-	        }
-
-	        if (!simulateChild || simulateChild.key !== wantedChild.key) {
-	            if (wantedChild.key) {
-	                if (simulateChild && simulateChild.key) {
-	                    if (bKeys[simulateChild.key] !== wantedIndex + 1) {
-	                        removes.push(remove(simulate, simulateIndex, simulateChild.key));
-	                        simulateChild = simulate[simulateIndex];
-	                        
-	                        if (!simulateChild || simulateChild.key !== wantedChild.key) {
-	                            inserts.push({key: wantedChild.key, to: wantedIndex});
-	                        } else {
-	                            simulateIndex++;
-	                        }
-	                    } else {
-	                        inserts.push({key: wantedChild.key, to: wantedIndex});
-	                    }
-	                } else {
-	                    inserts.push({key: wantedChild.key, to: wantedIndex});
-	                }
-	                
-	                wantedIndex++;
-	            } else if (simulateChild && simulateChild.key) {
-	                removes.push(remove(simulate, simulateIndex, simulateChild.key));
-	            }
-	        } else {
-	            wantedIndex++;
-	            simulateIndex++;
 	        }
 	    }
 
-	    while (simulateIndex < simulate.length) {
-	        simulateChild = simulate[simulateIndex];
-	        removes.push(remove(simulate, simulateIndex, simulateChild && simulateChild.key));
+	    i = -1;
+	    len = bChildren.length;
+	    lastFreeIndex = freePoint < freeCount ? bFree[freePoint] : bChildren.length;
+
+	    while (++i < len) {
+	        bChild = bChildren[i];
+
+	        if (bChild.key) {
+	            if (!_.has(aKeys, bChild.key)) {
+	                cChildren.push(bChild);
+	            }
+	        } else {
+	            if (i >= lastFreeIndex) {
+	                cChildren.push(bChild);
+	            }
+	        }
+	    }
+
+	    dChildren = cChildren.slice();
+
+	    j = 0;
+	    k = 0;
+	    len = bChildren.length;
+
+	    while (j < len) {
+	        bChild = bChildren[j];
+	        cChild = cChildren[k];
+
+	        while (cChild === null) {
+	            removes.push({
+	                key: null,
+	                from: k
+	            });
+
+	            cChildren.splice(k, 1);
+	            cChild = cChildren[k];
+	        }
+
+	        // 如果没有cChild或者有cChild但cChild和bChild不一样
+	        if (!cChild || cChild.key !== bChild.key) {
+
+	            // bChild是特殊值
+	            if (bChild.key) {
+
+	                // cChild也是特殊值
+	                if (cChild && cChild.key) {
+	                    removes.push({
+	                        key: cChild.key,
+	                        from: k
+	                    });
+
+	                    cChildren.splice(k, 1);
+
+	                    // 这里做了一次优化，如果bChild和cChild是相邻，则只需要把前一个cChild删除并插入到bChild后即可
+	                    if (bKeys[cChild.key] === j + 1) {
+	                        bChild = bChildren[++j];
+	                        cChild = cChildren[++k];
+	                    }
+
+	                    inserts.push({
+	                        key: bChild.key,
+	                        to: j
+	                    });
+
+	                // cChild是普通值
+	                } else {
+	                    inserts.push({
+	                        key: bChild.key,
+	                        to: j
+	                    });
+	                }
+
+	                j++;
+
+	            // bChild是普通值，但cChild是特殊值
+	            } else if (cChild && cChild.key) {
+	                removes.push({
+	                    key: cChild.key,
+	                    from: k
+	                });
+
+	                cChildren.splice(k, 1);
+
+	            // bChild是普通值，cChild也是普通值，这种情况不会出现，因为最开始已判断bChild不等于cChild
+	            } else {
+
+	            }
+
+	        // cChild和bChild一样
+	        } else {
+	            j++;
+	            k++;
+	        }
+	    }
+
+	    while (k < cChildren.length) {
+	        cChild = cChildren[k];
+
+	        removes.push({
+	            key: (cChild && cChild.key) || null,
+	            from: k
+	        });
+
+	        cChildren.splice(k, 1);
 	    }
 
 	    if (removes.length === deletedIndex && !inserts.length) {
 	        return {
 	            aChildren: aChildren,
-	            bChildren: bChildren,
+	            bChildren: dChildren,
 	            movePatch: null
 	        };
 	    }
 
 	    return {
 	        aChildren: aChildren,
-	        bChildren: bChildren,
+	        bChildren: dChildren,
 	        movePatch: {
 	            removes: removes,
 	            inserts: inserts
@@ -826,15 +875,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	    return {
 	        keys: keys,
 	        free: free
-	    };
-	}
-
-	function remove(children, index, key) {
-	    children.splice(index, 1);
-
-	    return {
-	        from: index,
-	        key: key
 	    };
 	}
 
@@ -968,20 +1008,24 @@ return /******/ (function(modules) { // webpackBootstrap
 	    var children = node.childNodes,
 	        map = {};
 
-	    _.each(patch.remove, function (remove) {
+	    _.each(patch.removes, function (remove) {
 	        var child = children[remove.from];
 	        
 	        if (remove.key) {
 	            map[remove.key] = child;
 	        }
 	        
-	        $.removeNode(node, child);
+	        $.removeNode(child);
 	    });
 	    
 	    _.each(patch.inserts, function (insert) {
 	        var child = map[insert.key];
 	        
-	        $.insertBefore(children[insert.to], child);
+	        if (insert.to >= children.length) {
+	            $.appendChild(node, child);
+	        } else {
+	            $.insertBefore(children[insert.to], child);
+	        }
 	    });
 	    
 	    return node;

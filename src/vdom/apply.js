@@ -110,20 +110,24 @@ function orderNode(id, node, patch) {
     var children = node.childNodes,
         map = {};
 
-    _.each(patch.remove, function (remove) {
+    _.each(patch.removes, function (remove) {
         var child = children[remove.from];
         
         if (remove.key) {
             map[remove.key] = child;
         }
         
-        $.removeNode(node, child);
+        $.removeNode(child);
     });
     
     _.each(patch.inserts, function (insert) {
         var child = map[insert.key];
         
-        $.insertBefore(children[insert.to], child);
+        if (insert.to >= children.length) {
+            $.appendChild(node, child);
+        } else {
+            $.insertBefore(children[insert.to], child);
+        }
     });
     
     return node;
