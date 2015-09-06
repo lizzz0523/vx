@@ -213,8 +213,7 @@
 
             this.el.addEventListener('focusout', function (event) {
                 var target = event.target,
-                    action,
-                    checked;
+                    action;
 
                 if (!target.hasAttribute('data-action')) {
                     return;
@@ -223,14 +222,10 @@
                 event.preventDefault();
 
                 action = target.getAttribute('data-action');
-                checked = target.getAttribute('data-checked');
 
                 switch (action) {
                     case 'save':
-                        if (!checked) {
-                            self.save(target);
-                        }
-                        
+                        self.save(target);
                         break;
                 }
             });
@@ -313,13 +308,10 @@
             },
 
             check: function (target) {
-                var self = this;
-
                 function inputCheck (event) {
                     if (event.keyCode === 13) {
                         target.removeEventListener('keydown', inputCheck);
-                        target.setAttribute('data-checked', true);
-                        self.save(target);
+                        target.blur();
                     }
                 } 
 
