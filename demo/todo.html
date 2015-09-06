@@ -11,6 +11,7 @@
 
         body {
             font-family: "Microsoft YaHei";
+            background-color: #363d45;
         }
 
         ul {
@@ -28,7 +29,14 @@
 
         .todo .todo-form {
             display: -webkit-box;
-            padding: 10px;
+            padding: 10px 0;
+        }
+
+        .todo .todo-form div {
+            -webkit-box-flex: 1;
+            padding: 0 10px;
+            background: white;
+            box-shadow: 1px 1px 4px rgba(0,0,0,0.2);
         }
 
         .todo .todo-form input {
@@ -40,20 +48,15 @@
             width: 100%;
             height: 40px;
             line-height: 40px;
-            background: white;
-            box-shadow: 1px 1px 4px rgba(0,0,0,0.2);
             font-size: 16px;
             color: #333;
-        }
-
-        .todo .todo-form div {
-            -webkit-box-flex: 1;
         }
 
         .todo .todo-form button {
             position: relative;
             display: block;
             margin: 0;
+            margin-left: 10px;
             padding: 0;
             border: none;
             outline: none;
@@ -72,11 +75,16 @@
             box-shadow: 2px 2px 4px rgba(0,0,0,0.6);
             -webkit-transform: translate(-1px, -1px);
         }
+
+        .todo .todo-body {
+            padding: 10px;
+            background-color: white;
+            box-shadow: 1px 1px 4px rgba(0,0,0,0.2);
+        }
         
         .todo .todo-item p {
             display: -webkit-box;
-            padding: 10px;
-            border-bottom: 1px solid #ccc;
+            border-bottom: 1px dashed #ccc;
             line-height: 40px;
             -webkit-user-select: none;
         }
@@ -262,7 +270,6 @@
                     done: false,
                     editing: false
                 });
-
 
                 todo.value = '';
 
