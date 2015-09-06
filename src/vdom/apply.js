@@ -40,7 +40,7 @@ function applyOperate(id, node, operate) {
         case Type.PATCH_CREATE:
             return createNode(id, node, patch);
         case Type.PATCH_REMOVE:
-            return removeNode(id, node, patch);
+            return removeNode(id, node, vnode);
         case Type.PATCH_REPLACE:
             return replaceNode(id, node, vnode, patch);
         case Type.PATCH_INSERT:

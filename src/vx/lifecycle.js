@@ -22,7 +22,7 @@ exports.render = function (id, vnode) {
     return view.node;
 };
 
-exports.destory = function (id) {
+exports.destory = function (id, vnode) {
     var view;
 
     if (vnode.type !== Type.NODE_VIEW) {

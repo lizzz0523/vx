@@ -55,6 +55,10 @@ _.extend(View.prototype, {
 
         this.vnode = vnode;
         this.node = node;
+    },
+
+    destory: function () {
+        
     }
 });
 

@@ -475,6 +475,10 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	        this.vnode = vnode;
 	        this.node = node;
+	    },
+
+	    destory: function () {
+	        
 	    }
 	});
 
@@ -894,7 +898,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        case Type.PATCH_CREATE:
 	            return createNode(id, node, patch);
 	        case Type.PATCH_REMOVE:
-	            return removeNode(id, node, patch);
+	            return removeNode(id, node, vnode);
 	        case Type.PATCH_REPLACE:
 	            return replaceNode(id, node, vnode, patch);
 	        case Type.PATCH_INSERT:
@@ -1110,7 +1114,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    return view.node;
 	};
 
-	exports.destory = function (id) {
+	exports.destory = function (id, vnode) {
 	    var view;
 
 	    if (vnode.type !== Type.NODE_VIEW) {
