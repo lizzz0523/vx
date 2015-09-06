@@ -1,7 +1,7 @@
-var diff = require('../vdom/diff'),
-    apply = require('../vdom/apply'),
-    
-    _ = require('../utils/lang');
+var _ = require('../utils/lang'),
+
+    diff = require('../vdom/diff'),
+    apply = require('../vdom/apply');
 
 var View = function(id, props, children, name) {
     this.id = id;

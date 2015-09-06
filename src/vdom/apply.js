@@ -1,8 +1,8 @@
-var VX = require('../vx/lifecycle'),
-    Type = require('../vx/type'),
+var $ = require('../utils/dom'),
+    _ = require('../utils/lang'),
 
-    $ = require('../utils/dom'),
-    _ = require('../utils/lang');
+    VX = require('../vx/lifecycle'),
+    Type = require('../vx/type');
 
 module.exports = function (id, node, patches) {
     var indices = patchIndices(patches),

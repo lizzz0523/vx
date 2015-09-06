@@ -1,6 +1,6 @@
-var Type = require('../vx/type'),
+var _ = require('../utils/lang'),
 
-    _ = require('../utils/lang');
+    Type = require('../vx/type');
 
 module.exports = function (id, a, b) {
     var patches = {a: a};

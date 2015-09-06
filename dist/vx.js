@@ -418,10 +418,10 @@ return /******/ (function(modules) { // webpackBootstrap
 /* 4 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var diff = __webpack_require__(5),
-	    apply = __webpack_require__(7),
-	    
-	    _ = __webpack_require__(1);
+	var _ = __webpack_require__(1),
+
+	    diff = __webpack_require__(5),
+	    apply = __webpack_require__(7);
 
 	var View = function(id, props, children, name) {
 	    this.id = id;
@@ -488,9 +488,9 @@ return /******/ (function(modules) { // webpackBootstrap
 /* 5 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var Type = __webpack_require__(6),
+	var _ = __webpack_require__(1),
 
-	    _ = __webpack_require__(1);
+	    Type = __webpack_require__(6);
 
 	module.exports = function (id, a, b) {
 	    var patches = {a: a};
@@ -896,11 +896,11 @@ return /******/ (function(modules) { // webpackBootstrap
 /* 7 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var VX = __webpack_require__(8),
-	    Type = __webpack_require__(6),
+	var $ = __webpack_require__(3),
+	    _ = __webpack_require__(1),
 
-	    $ = __webpack_require__(3),
-	    _ = __webpack_require__(1);
+	    VX = __webpack_require__(8),
+	    Type = __webpack_require__(6);
 
 	module.exports = function (id, node, patches) {
 	    var indices = patchIndices(patches),
