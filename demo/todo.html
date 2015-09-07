@@ -62,9 +62,9 @@
             outline: none;
             width: 80px;
             height: 40px;
-            color: #333;
+            color: white;
             background: none;
-            background-color: #ccc;
+            background-color: #e1675a;
             box-shadow: 1px 1px 4px rgba(0,0,0,0.2);
             font-size: 14px;
             cursor: pointer;
@@ -160,14 +160,18 @@
             ]);
         });
 
+        vx.view('TodoBtn', function () {
+            return vx.create('a', {'data-action': this.action, 'data-index': this.index}, [this.text]);
+        });
+
         vx.view('TodoItem', function () {
             return vx.create('li', {'class': 'todo-item'}, [
                 vx.create('p', {'class': this.done ? 'todo-done' : ''}, vx.bind(function () {
                         if (!this.editing) {
                             return [
                                 vx.create('span', {'data-action':'done', 'data-index': this.index}, [this.text]),
-                                vx.create('a', {'data-action':'edit', 'data-index': this.index}, ['编辑']),
-                                vx.create('a', {'data-action':'remove', 'data-index': this.index}, ['删除'])
+                                vx.create('TodoBtn', {'action':'edit', 'index': this.index, 'text': '编辑'}, []),
+                                vx.create('TodoBtn', {'action':'remove', 'index': this.index, 'text': '删除'}, [])
                             ];
                         } else {
                             return [
