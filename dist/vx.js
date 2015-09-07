@@ -477,7 +477,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        this.node = node;
 	    },
 
-	    destory: function () {
+	    destroy: function () {
 	        
 	    }
 	});
@@ -976,7 +976,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	function removeNode(id, node, vnode) {
 	    if (vnode.type && vnode.type === Type.NODE_VIEW) {
-	        VX.destory(node.vxId, vnode);
+	        VX.destroy(node.vxId, vnode);
 	    }
 	    
 	    $.removeNode(node);
@@ -988,7 +988,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    var result;
 	    
 	    if (vnode.type && vnode.type === Type.NODE_VIEW) {
-	        VX.destory(node.vxId, vnode);
+	        VX.destroy(node.vxId, vnode);
 	    }
 
 	    $.replaceNode(node, result = createNode(node.vxId, node, patch));
@@ -1158,12 +1158,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	    return view.node;
 	};
 
-	exports.destory = function (vxid, vnode) {
+	exports.destroy = function (vxid, vnode) {
 	    var rvxId = new RegExp('^' + vxid.replace('.', '\\\.') + '(?:\\\.|$)');
 	    
 	    _.each(exports.cache, function (view, vxid) {
 	        if (rvxId.test(vxid)) {
-	            view.destory();
+	            view.destroy();
 	            exports.cache[vxid] = null;
 	        }
 	    });

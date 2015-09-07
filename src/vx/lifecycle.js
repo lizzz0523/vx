@@ -22,12 +22,12 @@ exports.render = function (vxid, vnode) {
     return view.node;
 };
 
-exports.destory = function (vxid, vnode) {
+exports.destroy = function (vxid, vnode) {
     var rvxId = new RegExp('^' + vxid.replace('.', '\\\.') + '(?:\\\.|$)');
     
     _.each(exports.cache, function (view, vxid) {
         if (rvxId.test(vxid)) {
-            view.destory();
+            view.destroy();
             exports.cache[vxid] = null;
         }
     });

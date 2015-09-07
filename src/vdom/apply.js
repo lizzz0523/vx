@@ -78,7 +78,7 @@ function createNode(id, node, vnode) {
 
 function removeNode(id, node, vnode) {
     if (vnode.type && vnode.type === Type.NODE_VIEW) {
-        VX.destory(node.vxId, vnode);
+        VX.destroy(node.vxId, vnode);
     }
     
     $.removeNode(node);
@@ -90,7 +90,7 @@ function replaceNode(id, node, vnode, patch) {
     var result;
     
     if (vnode.type && vnode.type === Type.NODE_VIEW) {
-        VX.destory(node.vxId, vnode);
+        VX.destroy(node.vxId, vnode);
     }
 
     $.replaceNode(node, result = createNode(node.vxId, node, patch));

@@ -57,7 +57,7 @@ _.extend(View.prototype, {
         this.node = node;
     },
 
-    destory: function () {
+    destroy: function () {
         
     }
 });
