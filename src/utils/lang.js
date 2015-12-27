@@ -2,7 +2,7 @@ var toString = function (obj) {
         return Object.prototype.toString.call(obj);
     },
 
-    has = function (obj, prop) {
+    hasOwn = function (obj, prop) {
         return Object.prototype.hasOwnProperty.call(obj, prop);
     },
 
@@ -31,7 +31,7 @@ function isPlainObject(obj) {
         return false;
     }
 
-    if (obj.constructor && !has(obj.constructor.prototype, 'isPrototypeOf')) {
+    if (obj.constructor && !hasOwn(obj.constructor.prototype, 'isPrototypeOf')) {
         return false;
     }
 
@@ -47,7 +47,7 @@ function keys(obj) {
         key;
 
     for (key in obj) {
-        if (has(obj, key)) {
+        if (hasOwn(obj, key)) {
             ret.push(key);
         }
     }
@@ -130,7 +130,7 @@ exports.isString = isString;
 exports.isWindow = isWindow;
 exports.isUndefined = isUndefined;
 
-exports.has = has;
+exports.has = hasOwn;
 exports.keys = keys;
 exports.each = each;
 exports.map = map;

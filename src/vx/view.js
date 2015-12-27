@@ -58,7 +58,8 @@ _.extend(View.prototype, {
     },
 
     destroy: function () {
-        
+        this.vnode = null;
+        this.node = null;
     }
 });
 

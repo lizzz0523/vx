@@ -23,10 +23,10 @@ exports.render = function (vxid, vnode) {
 };
 
 exports.destroy = function (vxid, vnode) {
-    var rvxId = new RegExp('^' + vxid.replace('.', '\\\.') + '(?:\\\.|$)');
+    var rvxid = new RegExp('^' + vxid.replace('.', '\\\.') + '(?:\\\.|$)');
     
     _.each(exports.cache, function (view, vxid) {
-        if (rvxId.test(vxid)) {
+        if (rvxid.test(vxid)) {
             view.destroy();
             exports.cache[vxid] = null;
         }
